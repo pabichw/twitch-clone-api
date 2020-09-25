@@ -22,8 +22,14 @@ const production = {
   dialect: 'sqlite' || 'mysql' || 'postgres',
 };
 
+const twitchApi = {
+  rootUrl: 'https://api.twitch.tv/helix',
+  oAuthUrl: 'https://id.twitch.tv/oauth2',
+};
+
 module.exports = {
   development,
   testing,
   production,
+  twitchApi,
 };

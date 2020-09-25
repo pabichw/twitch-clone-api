@@ -58,10 +58,16 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.production
+.env.development
 
 
 # End of https://www.gitignore.io/api/node
 
 # sqlite database
 db/database.sqlite
+
+# IDE
+/.vscode
+/.idea
+
