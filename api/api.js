@@ -39,7 +39,7 @@ app.get('/getStreams', async (req, res) => {
   const twitchResp = await TwitchApi.getStreams({ token });
   console.log('twitch response:', twitchResp);
 
-  res.send(twitchResp);
+  res.send(status);
 });
 
 server.listen(config.port, () => {
