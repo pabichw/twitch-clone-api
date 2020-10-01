@@ -50,6 +50,26 @@ class TwitchApi {
 
     return JSON.parse(res);
   }
+
+  static async getUsers({ id, token }) {
+    const { CLIENT_ID } = process.env;
+    const path = `${rootUrl}/users?id=${id}`;
+
+    const res = await fetch(
+        path,
+        {
+          method: 'GET',
+          ...options,
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${token}`,
+            'Client-Id': CLIENT_ID,
+          },
+        },
+    ).then((resp) => resp.text());
+
+    return JSON.parse(res);
+  }
 }
 
 module.exports = TwitchApi;

@@ -1,3 +1,4 @@
+
 const bodyParser = require('body-parser');
 const express = require('express');
 const helmet = require('helmet');
@@ -9,6 +10,8 @@ const TwitchApi = require('./models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
 const path = require('path');
+const {getToken} = require("./utils/other");
+
 
 require('dotenv').config({ path: path.resolve(__dirname, `../.env.${environment}`) });
 
@@ -33,11 +36,25 @@ app.get('/getAppAccessToken', async (req, res) => {
   res.send(twitchResp);
 });
 
-app.get('/getStreams', async (req, res) => {
+app.get('/streams', async (req, res) => {
   const { token } = req.query;
-  console.log('token', token);
   const twitchResp = await TwitchApi.getStreams({ token });
-  console.log('twitch response:', twitchResp);
+
+  res.send(twitchResp);
+});
+
+app.get('/users', async (req, res) => {
+  const token = getToken(req);
+  const { id } = req.query;
+  console.log('token', token, 'id', id);
+  const twitchResp = await TwitchApi.getUsers({ id, token });
+
+  res.send(twitchResp);
+});
+
+app.get('/recomendedChannels', async (req, res) => {
+  const { token } = req.query;
+  const twitchResp = await TwitchApi.getStreams({ token });
 
   res.send(twitchResp);
 });
