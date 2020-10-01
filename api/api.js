@@ -51,6 +51,19 @@ app.get('/users', async (req, res) => {
 
   res.send(twitchResp);
 });
+app.get('/users', async (req, res) => {
+  const token = getToken(req);
+  const { id } = req.query;
+  console.log('token', token, 'id', id);
+  const twitchResp = await TwitchApi.getUsers({ id, token });
+
+  res.send(twitchResp);
+});
+
+app.get('/test', async (req, res) => {
+  res.send({message: 'Hello Test'});
+});
+
 
 app.get('/recomendedChannels', async (req, res) => {
   const { token } = req.query;
