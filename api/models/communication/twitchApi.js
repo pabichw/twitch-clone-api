@@ -51,21 +51,61 @@ class TwitchApi {
     return JSON.parse(res);
   }
 
+  static async getStreamTags({ id, token }) {
+    const { CLIENT_ID } = process.env;
+    const path = `${rootUrl}/streams/tags?broadcaster_id=${id}`;
+
+    const res = await fetch(
+      path,
+      {
+        method: 'GET',
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+          'Client-Id': CLIENT_ID,
+        },
+      },
+    ).then((resp) => resp.text());
+
+    return JSON.parse(res);
+  }
+
+  static async getGames({ token, id }) {
+    const { CLIENT_ID } = process.env;
+    const path = `${rootUrl}/games?id=${id}`;
+
+    const res = await fetch(
+      path,
+      {
+        method: 'GET',
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+          'Client-Id': CLIENT_ID,
+        },
+      },
+    ).then((resp) => resp.text());
+
+    return JSON.parse(res);
+  }
+
   static async getUsers({ id, token }) {
     const { CLIENT_ID } = process.env;
     const path = `${rootUrl}/users?id=${id}`;
 
     const res = await fetch(
-        path,
-        {
-          method: 'GET',
-          ...options,
-          headers: {
-            ...options.headers,
-            Authorization: `Bearer ${token}`,
-            'Client-Id': CLIENT_ID,
-          },
+      path,
+      {
+        method: 'GET',
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+          'Client-Id': CLIENT_ID,
         },
+      },
     ).then((resp) => resp.text());
 
     return JSON.parse(res);

@@ -10,7 +10,7 @@ const TwitchApi = require('./models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
 const path = require('path');
-const {getToken} = require("./utils/other");
+const { getToken } = require('./utils/other');
 
 
 require('dotenv').config({ path: path.resolve(__dirname, `../.env.${environment}`) });
@@ -51,17 +51,27 @@ app.get('/users', async (req, res) => {
 
   res.send(twitchResp);
 });
-app.get('/users', async (req, res) => {
+
+app.get('/games', async (req, res) => {
   const token = getToken(req);
   const { id } = req.query;
-  console.log('token', token, 'id', id);
-  const twitchResp = await TwitchApi.getUsers({ id, token });
+  console.log('token', token, 'game id', id);
+  const twitchResp = await TwitchApi.getGames({ id, token });
+
+  res.send(twitchResp);
+});
+
+app.get('/streams/tags', async (req, res) => {
+  const token = getToken(req);
+  const { id } = req.query;
+  console.log('token', token, 'stream id', id);
+  const twitchResp = await TwitchApi.getStreamTags({ id, token });
 
   res.send(twitchResp);
 });
 
 app.get('/test', async (req, res) => {
-  res.send({message: 'Hello Test'});
+  res.send({ message: 'Hello Test' });
 });
 
 
