@@ -45,10 +45,11 @@ app.get('/streams', async (req, res) => {
 
 app.get('/users', async (req, res) => {
   const token = getToken(req);
-  const { id } = req.query;
-  console.log('token', token, 'id', id);
-  const twitchResp = await TwitchApi.getUsers({ id, token });
+  const { id, login } = req.query;
+  console.log('token', token, 'id', id, 'login', login);
+  const twitchResp = await TwitchApi.getUsers({ id, login, token });
 
+  console.log('users twitch response', twitchResp);
   res.send(twitchResp);
 });
 
@@ -67,6 +68,16 @@ app.get('/streams/tags', async (req, res) => {
   console.log('token', token, 'stream id', id);
   const twitchResp = await TwitchApi.getStreamTags({ id, token });
 
+  res.send(twitchResp);
+});
+
+app.get('/channels', async (req, res) => {
+  const token = getToken(req);
+  const { broadcaster_id: broadcasterId } = req.query;
+  console.log('token', token, 'broadcasterId id', broadcasterId);
+  const twitchResp = await TwitchApi.getChannels({ broadcasterId, token });
+
+  console.log('videos twitch response', twitchResp);
   res.send(twitchResp);
 });
 

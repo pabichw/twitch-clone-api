@@ -15,6 +15,14 @@ const options = {
   referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 
 };
+
+const twitchRequestHeaders = ({ token, CLIENT_ID }) => ({
+  headers: {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+    'Client-Id': CLIENT_ID,
+  },
+});
 class TwitchApi {
   static async appAuth() {
     const { CLIENT_ID, CLIENT_SECRET } = process.env;
@@ -91,10 +99,11 @@ class TwitchApi {
     return JSON.parse(res);
   }
 
-  static async getUsers({ id, token }) {
+  static async getUsers({ id, login, token }) {
     const { CLIENT_ID } = process.env;
-    const path = `${rootUrl}/users?id=${id}`;
+    const path = `${rootUrl}/users?${id ? `id=${id}` : ''}${login ? `&login=${login}` : ''}`;
 
+    console.log('path', path);
     const res = await fetch(
       path,
       {
@@ -105,6 +114,22 @@ class TwitchApi {
           Authorization: `Bearer ${token}`,
           'Client-Id': CLIENT_ID,
         },
+      },
+    ).then((resp) => resp.text());
+
+    return JSON.parse(res);
+  }
+
+  static async getChannels({ token, broadcasterId }) {
+    const { CLIENT_ID } = process.env;
+    const path = `${rootUrl}/channels?broadcaster_id=${broadcasterId}`;
+
+    const res = await fetch(
+      path,
+      {
+        method: 'GET',
+        ...options,
+        ...twitchRequestHeaders({ token, CLIENT_ID }),
       },
     ).then((resp) => resp.text());
 
