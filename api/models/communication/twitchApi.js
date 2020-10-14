@@ -27,7 +27,7 @@ class TwitchApi {
   static async appAuth() {
     const { CLIENT_ID, CLIENT_SECRET } = process.env;
     const postPath = `${oAuthUrl}/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`;
-    console.log('POSTPATH:', postPath);
+
     const res = await fetch(
       postPath,
       {
@@ -103,7 +103,6 @@ class TwitchApi {
     const { CLIENT_ID } = process.env;
     const path = `${rootUrl}/users?${id ? `id=${id}` : ''}${login ? `&login=${login}` : ''}`;
 
-    console.log('path', path);
     const res = await fetch(
       path,
       {
@@ -135,6 +134,23 @@ class TwitchApi {
 
     return JSON.parse(res);
   }
+
+    static async searchChannels({ token, query }) {
+        const { CLIENT_ID } = process.env;
+        const path = `${rootUrl}/search/channels?query=${query}`;
+
+        console.log('search path:', path);
+        const res = await fetch(
+            path,
+            {
+                method: 'GET',
+                ...options,
+                ...twitchRequestHeaders({ token, CLIENT_ID }),
+            },
+        ).then((resp) => resp.text());
+
+        return JSON.parse(res);
+    }
 }
 
 module.exports = TwitchApi;

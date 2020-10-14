@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 
 app.get('/getAppAccessToken', async (req, res) => {
   const twitchResp = await TwitchApi.appAuth();
-  console.log('twitch resposnse:', twitchResp);
+  console.log('token resp:', twitchResp);
 
   res.send(twitchResp);
 });
@@ -46,17 +46,14 @@ app.get('/streams', async (req, res) => {
 app.get('/users', async (req, res) => {
   const token = getToken(req);
   const { id, login } = req.query;
-  console.log('token', token, 'id', id, 'login', login);
   const twitchResp = await TwitchApi.getUsers({ id, login, token });
 
-  console.log('users twitch response', twitchResp);
   res.send(twitchResp);
 });
 
 app.get('/games', async (req, res) => {
   const token = getToken(req);
   const { id } = req.query;
-  console.log('token', token, 'game id', id);
   const twitchResp = await TwitchApi.getGames({ id, token });
 
   res.send(twitchResp);
@@ -65,7 +62,6 @@ app.get('/games', async (req, res) => {
 app.get('/streams/tags', async (req, res) => {
   const token = getToken(req);
   const { id } = req.query;
-  console.log('token', token, 'stream id', id);
   const twitchResp = await TwitchApi.getStreamTags({ id, token });
 
   res.send(twitchResp);
@@ -74,10 +70,8 @@ app.get('/streams/tags', async (req, res) => {
 app.get('/channels', async (req, res) => {
   const token = getToken(req);
   const { broadcaster_id: broadcasterId } = req.query;
-  console.log('token', token, 'broadcasterId id', broadcasterId);
   const twitchResp = await TwitchApi.getChannels({ broadcasterId, token });
 
-  console.log('videos twitch response', twitchResp);
   res.send(twitchResp);
 });
 
@@ -90,6 +84,15 @@ app.get('/recomendedChannels', async (req, res) => {
   const { token } = req.query;
   const twitchResp = await TwitchApi.getStreams({ token });
 
+  res.send(twitchResp);
+});
+
+
+app.get('/search/channels', async (req, res) => {
+  const { query } = req.query;
+  const token = getToken(req);
+  const twitchResp = await TwitchApi.searchChannels({ token, query });
+  console.log('search channel result', twitchResp);
   res.send(twitchResp);
 });
 
