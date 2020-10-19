@@ -81,7 +81,7 @@ class TwitchApi {
 
   static async getGames({ token, id }) {
     const { CLIENT_ID } = process.env;
-    const path = `${rootUrl}/games?id=${id}`;
+    const path = `${rootUrl}/games${id ? `?id=${id}` : '/top'}`; // if no 'id' passed fetch TOP games
 
     const res = await fetch(
       path,
