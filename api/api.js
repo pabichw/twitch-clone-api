@@ -37,8 +37,9 @@ app.get('/getAppAccessToken', async (req, res) => {
 });
 
 app.get('/streams', async (req, res) => {
-  const { token } = req.query;
-  const twitchResp = await TwitchApi.getStreams({ token });
+  const token = getToken(req);
+  const { query } = req;
+  const twitchResp = await TwitchApi.getStreams({ token, ...query });
 
   res.send(twitchResp);
 });
@@ -53,8 +54,8 @@ app.get('/users', async (req, res) => {
 
 app.get('/games', async (req, res) => {
   const token = getToken(req);
-  const { id } = req.query;
-  const twitchResp = await TwitchApi.getGames({ id, token });
+  const { query } = req;
+  const twitchResp = await TwitchApi.getGames({ token, ...query });
 
   res.send(twitchResp);
 });
@@ -81,7 +82,7 @@ app.get('/test', async (req, res) => {
 
 
 app.get('/recomendedChannels', async (req, res) => {
-  const { token } = req.query;
+  const token = getToken(req);
   const twitchResp = await TwitchApi.getStreams({ token });
 
   res.send(twitchResp);

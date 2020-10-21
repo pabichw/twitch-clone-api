@@ -39,9 +39,9 @@ class TwitchApi {
     return JSON.parse(res);
   }
 
-  static async getStreams({ token }) {
+  static async getStreams({ token, game_id: gameId }) {
     const { CLIENT_ID } = process.env;
-    const path = `${rootUrl}/streams`;
+    const path = `${rootUrl}/streams?${gameId ? `game_id=${gameId}` : ''}`;
 
     const res = await fetch(
       path,
@@ -79,10 +79,12 @@ class TwitchApi {
     return JSON.parse(res);
   }
 
-  static async getGames({ token, id }) {
+  static async getGames({ token, id, name }) {
     const { CLIENT_ID } = process.env;
-    const path = `${rootUrl}/games${id ? `?id=${id}` : '/top'}`; // if no 'id' passed fetch TOP games
+    // eslint-disable-next-line no-nested-ternary
+    const path = `${rootUrl}/games${id ? `?id=${id}` : name ? `?name=${name}` : '/top'}`; // if no 'id' passed fetch TOP games
 
+    console.log('path', path);
     const res = await fetch(
       path,
       {
@@ -135,22 +137,22 @@ class TwitchApi {
     return JSON.parse(res);
   }
 
-    static async searchChannels({ token, query }) {
-        const { CLIENT_ID } = process.env;
-        const path = `${rootUrl}/search/channels?query=${query}`;
+  static async searchChannels({ token, query }) {
+    const { CLIENT_ID } = process.env;
+    const path = `${rootUrl}/search/channels?query=${query}`;
 
-        console.log('search path:', path);
-        const res = await fetch(
-            path,
-            {
-                method: 'GET',
-                ...options,
-                ...twitchRequestHeaders({ token, CLIENT_ID }),
-            },
-        ).then((resp) => resp.text());
+    console.log('search path:', path);
+    const res = await fetch(
+      path,
+      {
+        method: 'GET',
+        ...options,
+        ...twitchRequestHeaders({ token, CLIENT_ID }),
+      },
+    ).then((resp) => resp.text());
 
-        return JSON.parse(res);
-    }
+    return JSON.parse(res);
+  }
 }
 
 module.exports = TwitchApi;
