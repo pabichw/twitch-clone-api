@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const http = require('http');
 const cors = require('cors');
 
-const config = require('../config/');
 const TwitchApi = require('./models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
@@ -105,7 +104,7 @@ app.get('/search/channels', async (req, res) => {
   res.send(twitchResp);
 });
 
-server.listen(config.port, () => {
+const listener = server.listen(process.env.PORT || '2017', () => {
   if (environment !== 'production' &&
     environment !== 'development' &&
     environment !== 'testing'
@@ -113,5 +112,5 @@ server.listen(config.port, () => {
     console.error(`NODE_ENV is set to ${environment}, but only production and development are valid.`);
     process.exit(1);
   }
-  console.log(`Started\nEnv: ${environment}\nRunning at port: ${config.port}`);
+  console.log(`Started\nEnv: ${environment}\nRunning at port: ${listener.address().port}`);
 });
