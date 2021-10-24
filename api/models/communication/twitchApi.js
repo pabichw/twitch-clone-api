@@ -27,6 +27,7 @@ const twitchRequestHeaders = ({ token, CLIENT_ID }) => ({
 class TwitchApi {
   static async appAuth() {
     const { CLIENT_ID, CLIENT_SECRET } = process.env;
+    console.log('client id', CLIENT_ID, 'client secret', CLIENT_SECRET);
     const postPath = `${oAuthUrl}/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`;
 
     const res = await fetch(
