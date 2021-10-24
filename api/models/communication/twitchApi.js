@@ -23,6 +23,7 @@ const twitchRequestHeaders = ({ token, CLIENT_ID }) => ({
     'Client-Id': CLIENT_ID,
   },
 });
+
 class TwitchApi {
   static async appAuth() {
     const { CLIENT_ID, CLIENT_SECRET } = process.env;
@@ -38,6 +39,28 @@ class TwitchApi {
 
     return JSON.parse(res);
   }
+
+  static async direct(token, url, queryObj) {
+    const { CLIENT_ID } = process.env; // might not be necessery
+    const query = new URLSearchParams(queryObj).toString();
+    const path = `${rootUrl}${url}${query}`;
+    console.log('final twitch path', path);
+
+    const res = await fetch(
+      path,
+      {
+        method: 'GET',
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+          'Client-Id': CLIENT_ID,
+        },
+      },
+    ).then((resp) => resp.text());
+
+    return JSON.parse(res);
+  } 
 
   static async getStreams({ token, game_id: gameId }) {
     const { CLIENT_ID } = process.env;

@@ -41,18 +41,16 @@
     "express": "^4.16.3",
     "express-routes-mapper": "^1.0.2",
     "helmet": "^3.12.0",
-    "jsonwebtoken": "^8.2.1",
-    "sequelize": "^6.0.0",
-    "sqlite3": "^4.0.0"
+    "jsonwebtoken": "^8.2.1"
   },
   "devDependencies": {
     "cross-env": "^5.1.4",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint": "^8.1.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.11.0",
     "husky": "^0.14.3",
-    "jest": "^24.8.0",
-    "nodemon": "^1.17.3",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
     "shx": "^0.2.2",
     "supertest": "^3.0.0"
   }

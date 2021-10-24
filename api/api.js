@@ -19,14 +19,6 @@ const server = http.Server(app);
 
 app.use(cors());
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//   next();
-// });
-
 app.use(helmet({
   dnsPrefetchControl: false,
   frameguard: false,
@@ -43,64 +35,21 @@ app.get('/getAppAccessToken', async (req, res) => {
   res.send(twitchResp);
 });
 
-app.get('/streams', async (req, res) => {
+
+app.get('/marco', async (req, res) => {
+  res.send({ data: { msg: 'polo' }});
+})
+
+app.get('/*', async (req, res) => {
   const token = getToken(req);
-  const { query } = req;
-  const twitchResp = await TwitchApi.getStreams({ token, ...query });
-
-  res.send(twitchResp);
-});
-
-app.get('/users', async (req, res) => {
-  const token = getToken(req);
-  const { id, login } = req.query;
-  const twitchResp = await TwitchApi.getUsers({ id, login, token });
-
-  res.send(twitchResp);
-});
-
-app.get('/games', async (req, res) => {
-  const token = getToken(req);
-  const { query } = req;
-  const twitchResp = await TwitchApi.getGames({ token, ...query });
-
-  res.send(twitchResp);
-});
-
-app.get('/streams/tags', async (req, res) => {
-  const token = getToken(req);
-  const { id } = req.query;
-  const twitchResp = await TwitchApi.getStreamTags({ id, token });
-
-  res.send(twitchResp);
-});
-
-app.get('/channels', async (req, res) => {
-  const token = getToken(req);
-  const { broadcaster_id: broadcasterId } = req.query;
-  const twitchResp = await TwitchApi.getChannels({ broadcasterId, token });
-
-  res.send(twitchResp);
-});
-
-app.get('/test', async (req, res) => {
-  res.send({ message: 'Hello Test' });
-});
+  const { url, query } = req;
+  console.log('url', url);
+  console.log('query', query);
+  console.log('token', token);
+  
+  const twitchResp = await TwitchApi.direct(token, url, query);
 
 
-app.get('/recomendedChannels', async (req, res) => {
-  const token = getToken(req);
-  const twitchResp = await TwitchApi.getStreams({ token });
-
-  res.send(twitchResp);
-});
-
-
-app.get('/search/channels', async (req, res) => {
-  const { query } = req.query;
-  const token = getToken(req);
-  const twitchResp = await TwitchApi.searchChannels({ token, query });
-  console.log('search channel result', twitchResp);
   res.send(twitchResp);
 });
 
