@@ -9,8 +9,6 @@ const TwitchApi = require('./models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
 const path = require('path');
-const { getToken } = require('./utils/other');
-
 
 require('dotenv').config({ path: path.resolve(__dirname, `../.env.${environment}`) });
 
@@ -25,9 +23,6 @@ app.use(helmet({
   ieNoOpen: false,
 }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
 app.get('/getAppAccessToken', async (req, res) => {
   const twitchResp = await TwitchApi.appAuth();
   console.log('token resp:', twitchResp);
@@ -35,23 +30,9 @@ app.get('/getAppAccessToken', async (req, res) => {
   res.send(twitchResp);
 });
 
-
 app.get('/marco', async (req, res) => {
   res.send({ data: { msg: 'polo' }});
 })
-
-app.get('/*', async (req, res) => {
-  const token = getToken(req);
-  const { url, query } = req;
-  console.log('url', url);
-  console.log('query', query);
-  console.log('token', token);
-  
-  const twitchResp = await TwitchApi.direct(token, url, query);
-
-
-  res.send(twitchResp);
-});
 
 const listener = server.listen(process.env.PORT || '2017', () => {
   if (environment !== 'production' &&
