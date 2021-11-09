@@ -12,13 +12,11 @@
     "url": "https://github.com/aichbauer/express-rest-api-boilerplate/issues"
   },
   "scripts": {
-    "start": "npm install && node ./api/api.js",
+    "start": "npm install && node app.js",
     "poststart": "npm run create-sqlite-db",
-    "dev": "cross-env NODE_ENV=development node ./api/api.js",
+    "dev": "cross-env NODE_ENV=development node app.js",
     "nodemon": "nodemon --exec npm run dev",
-    "lint": "eslint ./api/. ./config/. ./test/.",
-    "pretest": "npm run lint",
-    "production": "cross-env NODE_ENV=production node ./api/api.js",
+    "production": "cross-env NODE_ENV=production node app.js",
     "test": "npm runcross-env NODE_ENV=testing jest --coverage;",
     "test-ci": "jest --coverage --forceExit"
   },

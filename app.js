@@ -1,7 +1,7 @@
 
 const express = require('express');
 const helmet = require('helmet');
-const http = require('http');
+const https = require('https');
 const cors = require('cors');
 
 const TwitchApi = require('./api/models/communication/twitchApi');
@@ -12,7 +12,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, `.env.${environment}`) });
 
 const app = express();
-const server = http.Server(app);
+const server = https.Server(app);
 
 app.use(cors());
 
