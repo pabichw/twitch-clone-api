@@ -71,3 +71,5 @@ db/database.sqlite
 /.vscode
 /.idea
 
+# Yarn
+yarn.lock

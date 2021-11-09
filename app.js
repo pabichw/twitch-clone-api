@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const https = require('https');
 const cors = require('cors');
 
-const TwitchApi = require('./api/models/communication/twitchApi');
+const TwitchApi = require('./src/models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
 const path = require('path');
