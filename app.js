@@ -1,16 +1,15 @@
 
-const bodyParser = require('body-parser');
 const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
 const cors = require('cors');
 
-const TwitchApi = require('./models/communication/twitchApi');
+const TwitchApi = require('./api/models/communication/twitchApi');
 
 const environment = process.env.NODE_ENV;
 const path = require('path');
 
-require('dotenv').config({ path: path.resolve(__dirname, `../.env.${environment}`) });
+require('dotenv').config({ path: path.resolve(__dirname, `.env.${environment}`) });
 
 const app = express();
 const server = http.Server(app);
