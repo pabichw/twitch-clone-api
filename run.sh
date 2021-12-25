@@ -1,0 +1,1 @@
+nohup npm i && npm run start &
